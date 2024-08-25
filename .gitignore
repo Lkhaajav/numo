@@ -283,3 +283,6 @@ src/main/resources/config/properties/globals.properties
 .idea/dataSources.xml
 .idea/codeStyles/codeStyleConfig.xml
 .idea/codeStyles/Project.xml
+
+# .smarttomcat
+.smarttomcat
