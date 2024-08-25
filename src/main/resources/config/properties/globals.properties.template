@@ -1,0 +1,10 @@
+# MariaDB
+g.drv=org.mariadb.jdbc.Driver
+
+# home dev server
+g.url=jdbc:mariadb://127.0.0.1:3306/numo?allowMultiQueries=true
+g.unm=root
+g.upw=1234
+
+#Setting
+g.cfgloctn = mapper/sql-mapper-config.xml

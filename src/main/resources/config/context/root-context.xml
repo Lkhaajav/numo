@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 속성 정보 설정 -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:config/properties/globals.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- DB 연결 설정 -->
+    <bean id="dataSourceSpied" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${g.drv}"/>
+        <property name="url" value="${g.url}"/>
+        <property name="username" value="${g.unm}"/>
+        <property name="password" value="${g.upw}"/>
+        <!-- 8 시간마다 커넥션 체크 -->
+        <property name="validationQuery" value="select 1 from dual"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="validationQueryTimeout" value="28800"/>
+    </bean>
+
+    <!-- DB 관련 LOG 설정 -->
+    <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+        <constructor-arg ref="dataSourceSpied"/>
+        <property name="logFormatter">
+            <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+                <property name="loggingType" value="MULTI_LINE"/>
+                <property name="sqlPrefix" value="SQL : "/>
+            </bean>
+        </property>
+    </bean>
+   
+</beans>

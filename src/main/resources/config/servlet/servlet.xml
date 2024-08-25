@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<mvc:resources mapping="/css/**" location="/resources/css/" />
+	<mvc:resources mapping="/img/**" location="/resources/images/" />
+	<mvc:resources mapping="/js/**" location="/resources/js/" />
+	<mvc:resources mapping="/model/**" location="/resources/model/" />
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+
+	<context:annotation-config/>
+	<context:component-scan base-package="numo"/>
+
+	 <!-- JSON VIEW -->
+    <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+		<property name="contentType" value="text/html;charset=UTF-8"/>
+	</bean>
+
+	<!-- 타일즈 뷰 리졸버 선언 -->
+	<mvc:annotation-driven />
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0"/>
+
+
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+	    <property name="viewClass">
+            <value>
+                org.springframework.web.servlet.view.tiles3.TilesView
+            </value>
+	    </property>
+	    <property name="order" value="1"/>
+	</bean>
+
+	<!-- Tiles configuration -->
+	<bean id="tilesConfigurer"
+	    class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+	    <property name="definitions">
+	        <list>
+	            <value>classpath*:**/config/tiles/tiles.xml</value>
+	        </list>
+	    </property>
+	</bean>
+
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<property name="order" value="0" />
+	</bean>
+
+   <!-- <mvc:interceptors>
+        <mvc:interceptor>
+            &lt;!&ndash; 모든 화면에 대해서 매핑 &ndash;&gt;
+            <mvc:mapping path="/**/*"/>
+            &lt;!&ndash; 아래 화면들은 제외 &ndash;&gt;
+            <mvc:exclude-mapping path="/login.do"/>
+            <mvc:exclude-mapping path="/logout.do"/>
+            &lt;!&ndash; FIXME: 세션이 아닌 방법(인터셉터 등)으로 json 공통 인증 적용 필요 &ndash;&gt;
+            <mvc:exclude-mapping path="/**/*.json"/>
+            &lt;!&ndash; FIXME: 암호화 테스트. 사용자 비밀번호 화면 생성 이후 제거 필요 &ndash;&gt;
+            <mvc:exclude-mapping path="/test_encryption.json"/>
+            <bean id="authInterceptor" class="numo.common.utilities.AuthInterceptor"/>
+        </mvc:interceptor>
+
+        <bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+            <property name="cacheSeconds" value="0"/>
+            <property name="useExpiresHeader" value="true"/>
+            <property name="useCacheControlHeader" value="true"/>
+            <property name="useCacheControlNoStore" value="true"/>
+            <property name="cacheMappings">
+                <props> &lt;!&ndash; 아래 경로에만 뒤로가기 제한시킴. &ndash;&gt;
+                    <prop key="/login/**">86400</prop>
+                </props>
+            </property>
+        </bean>
+    </mvc:interceptors>-->
+
+</beans>

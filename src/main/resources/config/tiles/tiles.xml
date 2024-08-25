@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+    <!-- 공통 헤더/푸터 포함 레이아웃 -->
+    <definition name="baseForm" template="/WEB-INF/jsp/base/baseForm.jsp">
+    	<put-attribute name="header" value="/WEB-INF/jsp/base/header.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/jsp/base/footer.jsp"/>
+        <put-attribute name="contents" value=""/>
+    </definition>
+
+    <!-- 헤더/푸터 제외 레이아웃 -->
+    <definition name="empty" template="/WEB-INF/jsp/base/empty.jsp">
+		<put-attribute name="contents" value=""/>
+    </definition>
+    
+    <!-- 로그인 화면 -->
+    <definition name="login/*" extends="empty">
+        <put-attribute name="contents" value="/WEB-INF/jsp/login/{1}.jsp"/>
+    </definition>
+
+    <!-- 메인 화면 -->
+    <definition name="main" extends="baseForm">
+        <put-attribute name="contents" value="/WEB-INF/jsp/main/main.jsp"/>
+    </definition>
+	
+	<definition name="menu/*" extends="empty">
+        <put-attribute name="contents" value="/WEB-INF/jsp/menu/{1}.jsp"/>
+    </definition>
+        
+    <!-- 로딩화면 -->
+	<definition name="loading/*" extends="empty">
+        <put-attribute name="contents" value="/WEB-INF/jsp/loading/{1}.jsp"/>
+    </definition>
+
+</tiles-definitions>
